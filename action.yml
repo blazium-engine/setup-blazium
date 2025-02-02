@@ -66,7 +66,6 @@ runs:
           ${{ runner.os }}-blazium-cli-
     - name: Download Blazium CLI
       shell: bash
-      if: steps.cache-blazium-cli.outputs.cache-hit != 'true'
       run: |
         echo "Runner os is $RUNNER_OS"
         if [ "$RUNNER_OS" == "Linux" ]; then
@@ -77,7 +76,11 @@ runs:
           os=darwin
         fi
         mkdir -p ${{ inputs.downloads-path }}/cli
-        curl -L -o ${{ inputs.downloads-path }}/cli/blazium-cli https://cdn.blazium.app/cli/$os/${{ inputs.cli-version }}/blazium-cli
+        if [ "${{ steps.cache-blazium-cli.outputs.cache-hit }}" != "true" ]; then
+          curl -L -o ${{ inputs.downloads-path }}/cli/blazium-cli https://cdn.blazium.app/cli/$os/${{ inputs.cli-version }}/blazium-cli
+        else
+          echo "Using cached Blazium CLI"
+        fi
         file=$(ls ${{ inputs.downloads-path }}/cli)
         BLAZIUM_CLI=${{ inputs.downloads-path }}/cli/$file
         chmod +x $BLAZIUM_CLI
