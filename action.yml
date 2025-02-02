@@ -190,7 +190,7 @@ runs:
       shell: bash
       if: ${{ inputs.download_editor == 'true' }}
       run: |
-        ${{ env.BLAZIUM_EDITOR }} --version
+        Blazium --version
 
     - name: Cache Blazium Template
       if: ${{ inputs.download_template == 'true' }}

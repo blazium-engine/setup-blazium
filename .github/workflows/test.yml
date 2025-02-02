@@ -1,0 +1,27 @@
+name: Test Download
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    needs: set_env
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: blazium-engine/setup-blazium@master
+        name: 🤖 Setup Blazium
+        with:
+          version: 0.1.184-nightly
+          download_template: true
+
+      - name: 🔬 Verify Setup
+        run: |
+          Blazium --version
