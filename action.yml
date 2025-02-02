@@ -170,18 +170,21 @@ runs:
         elif [ "$platform" == "linux" ]; then
           file=$(ls ${{ inputs.bin-path }}/editor)
           chmod +x ${{ inputs.bin-path }}/editor/$file
-          echo "BLAZIUM_EDITOR=${{ inputs.bin-path }}/editor/$file" >> $GITHUB_ENV
+          # Rename it to Blazium
+          mv ${{ inputs.bin-path }}/editor/$file ${{ inputs.bin-path }}/editor/Blazium
+          echo "BLAZIUM_EDITOR=${{ inputs.bin-path }}/editor/Blazium" >> $GITHUB_ENV
         else
           # Find the first subdirectory in the bin path
           subdir=$(find "${{ inputs.bin-path }}/editor" -type d -mindepth 1 -maxdepth 1)
           
           # Find the .console.exe file within the subdirectory
           file=$(find "$subdir" -type f -name '*.console.exe' | head -n 1)
-          
-          # Set the environment variable with Windows-style path separators
-          win_path=$(echo "$file" | sed 's/\//\\\\/g')
-          echo "BLAZIUM_EDITOR=$win_path" >> $GITHUB_ENV
+          # Rename to Blazium.exe
+          mv $file ${{ inputs.bin-path }}/editor/Blazium.exe
+          echo "BLAZIUM_EDITOR=${{ inputs.bin-path }}/editor/Blazium.exe" >> $GITHUB_ENV
         fi
+        # Add Blazium to PATH
+        echo "${{ inputs.bin-path }}/editor" >> $GITHUB_PATH
 
     - name: Verify Blazium Editor Installation
       shell: bash
