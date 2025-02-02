@@ -257,7 +257,7 @@ runs:
         file=$(ls ${{ inputs.bin-path }}/templates)
         
         echo "Unzipping template"
-        mkdir -v -p ~/.local/share/godot/export_templates
+        sudo mkdir -v -p ~/.local/share/godot/export_templates
         unzip ${{ inputs.bin-path }}/templates/$file -d /root/.local/share/godot/templates
         ls /root/.local/share/godot/templates
 
