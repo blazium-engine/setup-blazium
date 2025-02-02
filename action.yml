@@ -258,6 +258,6 @@ runs:
         
         echo "Unzipping template"
         mkdir -v -p ~/.local/share/godot/export_templates
-        unzip ${{ inputs.bin-path }}/templates/$file -d ~/.local/share/godot/export_templates
-        ls ~/.local/share/godot/export_templates
+        unzip ${{ inputs.bin-path }}/templates/$file -d ~/.local/share/godot/export_templates/${{ inputs.version }}
+        ls ~/.local/share/godot/export_templates/${{ inputs.version }}
 
